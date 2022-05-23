@@ -1,23 +1,46 @@
 import styled from "styled-components";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function Forms() {
+
+export default function Forms({ clicked, inform, nameClick }) {
+    const [Nome, setNome] = useState("");
+    const [cpf, setCPF] = useState("");
+    const navigate = useNavigate();
+
+
+    const informPost = {
+        ids: clicked,
+        name: Nome,
+        cpf
+    }
+
+    function fazerLogin(event) {
+        event.preventDefault();
+        if (informPost.ids.length === 0){
+            return(
+                alert("preencha pelo menos um (1) assento")
+            )
+        }
+        const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", informPost)
+        promise.then(() =>
+            {console.log(nameClick)
+                navigate("/sucesso", {state: {inform: inform, nameClick: nameClick, informPost: informPost}})
+            }
+        )
+    }
+
+
     return (
-
-
-        <Form onSubmit={fazerLogin}>
+        <Form onSubmit={(e) => fazerLogin(e)}>
             <label htmlFor="name">Nome do comprador:</label>
-            <input id="nome" type="text" htmlFor="nome" placeholder="Digite seu nome..." required />
+            <input id="nome" type="text" htmlFor="nome" placeholder="Digite seu nome..." required onChange={e => setNome(e.target.value)} />
             <label>CPF do comprador:</label>
-            <input id="cpf" htmlFor="cpf" type="text" placeholder="Digite seu CPF..." required />
-            <Submit>Reservar assento(s)</Submit>
+            <input id="cpf" htmlFor="cpf" type="text" pattern="[0-9]{11}" placeholder="Digite seu CPF..." maxLength={11} minLength={11} required onChange={e => setCPF(e.target.value)} />
+            <Submit onClick={() => console.log(clicked)}>Reservar assento(s)</Submit>
         </Form>
-
-
     )
-}
-
-function fazerLogin (event) {
-    event.preventDefault(); // impede o redirecionamento
 }
 
 const Form = styled.form`

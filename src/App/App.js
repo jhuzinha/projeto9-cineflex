@@ -1,8 +1,9 @@
-import Sessions from "../Components/Sessions"
-import Header from "../Components/Header"
-import Main from "../Components/Main"
-import Seats from "../Components/Seats"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Sessions from "../Components/Sessions";
+import Header from "../Components/Header";
+import Main from "../Components/Main";
+import Seats from "../Components/Seats";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Success from "../Components/Success";
 
 export default function App(){
     
@@ -13,7 +14,7 @@ export default function App(){
             <Route path= "/" element = {<Main />}/>
             <Route path="/sessao/:idFilm" element = {<Sessions />}/>
             <Route path="/assentos/:idSessions" element = {<Seats />}/>
-            <Route path="/sucesso/:idSuccess"/>
+            <Route path="/sucesso" element = {<Success />}/>
         </Routes>
     </BrowserRouter>
     )

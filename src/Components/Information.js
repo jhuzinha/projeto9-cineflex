@@ -11,9 +11,11 @@ export default function Information({children}){
 }
 
 const Word = styled.div `
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size:  24px;
     height: 90px;
-    margin-top: 100px;
     text-align: center;
     line-height: 28px;
     width: 100%;

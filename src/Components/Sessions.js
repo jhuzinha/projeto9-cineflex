@@ -22,7 +22,6 @@ export default function Sessions(){
         })
         }, [])
 
-        console.log(sessions)
     return (
         <>
         { sessions.length === 0? <Information> <img src={Loading} alt="Carregando..." /></Information> : 
@@ -32,7 +31,7 @@ export default function Sessions(){
                 <div key={film.id}> 
                 <Days> {film.weekday} - {film.date} </Days> 
                 <Hour> { (film.showtimes).map((time) => <Link to={`/assentos/${time.id}`} key={time.id}> <button> {time.name} </button> </Link>) } </Hour>
-                </div>)}
+                </div>)}    
                 <Spacing></Spacing>
             <Footer> 
                 { image.length !== 0 && <ContentsFooter key={image.id}> <div><img src={image.posterURL} alt="" /></div> {image.title}</ContentsFooter> 
@@ -49,6 +48,7 @@ const Days = styled.div `
     font-size: 18px;
     line-height: 21px;
     margin-left: 24px;
+    margin-bottom: 10px;
 
 `
 
@@ -61,7 +61,7 @@ const Hour = styled.div`
     border: none;
     height: 43px;
     width: 83px;
-    margin: 23px 8px 23px 0px;
+    margin: 13px 8px 23px 0px;
     color: white;
     font-size: 18px;
     line-height: 21px;

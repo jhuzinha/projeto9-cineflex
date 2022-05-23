@@ -11,18 +11,18 @@ import Forms from "./Forms";
 export default function Seats() {
     const { idSessions } = useParams();
     const [seat, setSeat] = useState([]);
-    const [inform, setInform] = useState([])
-    const [clicked, setClicked] = useState([])
+    const [inform, setInform] = useState([]);
+    const [clicked, setClicked] = useState([]);
+    const [nameClick, setnameClick] = useState([]);
 
     useEffect(() => {
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessions}/seats`)
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessions}/seats`);
 
         promise.then(response => {
-            setSeat(response.data.seats)
-            setInform(response.data)
-        })
+            setSeat(response.data.seats);
+            setInform(response.data);
+        });
     }, [])
-
 
     return (
         <>
@@ -32,27 +32,26 @@ export default function Seats() {
                     <Container>
                         {seat.map((s, index) => <div key={index}> {!s.isAvailable ? <ChairD cor={"#FBE192"} borda={"#F7C52B"}>{s.name}</ChairD> :
                             clicked.includes(s.id) ? 
-                            <ChairD cor={"#8DD7CF"} borda={"#45BDB0"} onClick={() => setClicked((clicked)=> clicked.filter((click)=> click !== s.id))}>{s.name}</ChairD> : 
-                            <ChairD cor={"#C3CFD9"} borda={"#808F9D"} onClick={() => setClicked([...clicked, s.id])}>{s.name}</ChairD>}</div>)}
+                            <ChairD cor={"#8DD7CF"} borda={"#45BDB0"} onClick={() => {setClicked((clicked)=> clicked.filter((click)=> click !== s.id)); setnameClick((nameClick)=> nameClick.filter((click)=> click !== s.name))}}>{s.name}</ChairD> : 
+                            <ChairD cor={"#C3CFD9"} borda={"#808F9D"} onClick={() => {setClicked([...clicked, s.id]); setnameClick([...nameClick, s.name]); console.log(nameClick)}}>{s.name}</ChairD>}</div>)}
                         
                         
                         <LegendSeats />
 
-                        <Forms />
-                        
+                        <Forms clicked = {clicked} inform = {inform} nameClick = {nameClick}/>
+
                         <Spacing></Spacing>
 
                     </Container>
 
 
-                    <Footer>  {inform.length !== 0 && <ContentsFooter key={inform.id}> <div><img src={inform.movie.posterURL} alt="" /></div> <li>{inform.movie.title} <p>{inform.day.weekday} - {inform.day.date}</p></li></ContentsFooter>
+                    <Footer>  {inform.length !== 0 && <ContentsFooter key={inform.id}> <div><img src={inform.movie.posterURL} alt="" /></div> <li>{inform.movie.title} <p>{inform.day.weekday} - {inform.name}</p></li></ContentsFooter>
                     }</Footer>
                 </Center>
             }
         </>
     )
 }
-
 
 const Center = styled.div`
     display: flex;
