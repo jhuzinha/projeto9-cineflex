@@ -4,18 +4,19 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from "react-router-dom";
+import Loading from "../Assets/images/loading.gif";
 
 
 export default function Main(){
         
     // LOGIC 
     const [films, setFilms] = useState([]);
-
-    const request = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
     
     useEffect( () => {
-    request.then(ansewr => {
-        setFilms([...ansewr.data])})
+        const request = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
+        
+        request.then(ansewr => {
+            setFilms(ansewr.data)})
     }, [])
     
     
@@ -23,13 +24,17 @@ export default function Main(){
     // UI
     return(
     <>
+    { films.length === 0? <Information> <img src={Loading} alt="Carregando..." /></Information> : 
+    <div>
         <Information> Selecione o filme </Information>
         <Container>
             {films.map((film, index) => 
             <div key= {index}> 
-                <Link to={`/sessao/${film.id}`}> <img src={film.posterURL} /> </Link>
+                <Link to={`/sessao/${film.id}`}> <img src={film.posterURL} alt="imagem do filme" /> </Link>
             </div>)}
         </Container>
+    </div>
+    }
     </>)
 }
 

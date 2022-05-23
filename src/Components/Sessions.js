@@ -1,29 +1,98 @@
 import styled from "styled-components";
 import Information from "./Information";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import Footer from "./Footer";
+import Loading from "../Assets/images/loading.gif";
 
 export default function Sessions(){
     const {idFilm} = useParams()
     
     const [sessions, setSessions] = useState([])
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilm}/showtimes`)
+    const [image, setImage] = useState([])
 
     useEffect( () => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilm}/showtimes`)
+
         promise.then(ansewr => {
-            setSessions([...ansewr.data])})
-            console.log(sessions)
+            setSessions(ansewr.data.days)
+            setImage(ansewr.data)
+            console.log(ansewr.data)
+        })
         }, [])
 
+        console.log(sessions)
     return (
         <>
-        <Information> Selecione o horário </Information>
-        {sessions.map((film, index) => 
-            <div key= {index}> 
-                <Link to={`/sessao/${film.id}`}> <img src={film.posterURL} /> </Link>
-            </div>)}
+        { sessions.length === 0? <Information> <img src={Loading} alt="Carregando..." /></Information> : 
+        <div>
+            <Information> Selecione o horário </Information>
+            {sessions.map((film) => 
+                <div key={film.id}> 
+                <Days> {film.weekday} - {film.date} </Days> 
+                <Hour> { (film.showtimes).map((time) => <Link to={`/assentos/${time.id}`} key={time.id}> <button> {time.name} </button> </Link>) } </Hour>
+                </div>)}
+                <Spacing></Spacing>
+            <Footer> 
+                { image.length !== 0 && <ContentsFooter key={image.id}> <div><img src={image.posterURL} alt="" /></div> {image.title}</ContentsFooter> 
+                }
+            </Footer> 
+        </div>
+        }
         </>
     )
 }
+
+
+const Days = styled.div `
+    font-size: 18px;
+    line-height: 21px;
+    margin-left: 24px;
+
+`
+
+const Hour = styled.div`
+    display: flex;
+    margin-left: 24px;
+    
+    button { background-color: #E8833A;
+    border-radius: 3px;
+    border: none;
+    height: 43px;
+    width: 83px;
+    margin: 23px 8px 23px 0px;
+    color: white;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    }
+`
+
+const Spacing = styled.div` 
+    margin-bottom:  180px;
+`
+
+const ContentsFooter = styled.div`
+    display: flex;
+    align-items: center;
+     
+    div {
+        background: #FFFFFF;
+        box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        margin: 14px 10px 14px 14px;
+        width: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    
+    img {
+        height: 89px;
+        width: 64px;
+        margin: 8px;
+    }
+
+`
