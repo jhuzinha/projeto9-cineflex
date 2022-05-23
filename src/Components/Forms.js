@@ -25,7 +25,7 @@ export default function Forms({ clicked, inform, nameClick }) {
         }
         const promise = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", informPost)
         promise.then(() =>
-            {console.log(nameClick)
+            {
                 navigate("/sucesso", {state: {inform: inform, nameClick: nameClick, informPost: informPost}})
             }
         )
@@ -38,7 +38,7 @@ export default function Forms({ clicked, inform, nameClick }) {
             <input id="nome" type="text" htmlFor="nome" placeholder="Digite seu nome..." required onChange={e => setNome(e.target.value)} />
             <label>CPF do comprador:</label>
             <input id="cpf" htmlFor="cpf" type="text" pattern="[0-9]{11}" placeholder="Digite seu CPF..." maxLength={11} minLength={11} required onChange={e => setCPF(e.target.value)} />
-            <Submit onClick={() => console.log(clicked)}>Reservar assento(s)</Submit>
+            <Submit>Reservar assento(s)</Submit>
         </Form>
     )
 }

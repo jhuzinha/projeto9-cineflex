@@ -11,6 +11,7 @@ export default function Main(){
         
     // LOGIC 
     const [films, setFilms] = useState([]);
+
     
     useEffect( () => {
         const request = axios.get("https://mock-api.driven.com.br/api/v5/cineflex/movies")
@@ -24,7 +25,7 @@ export default function Main(){
     // UI
     return(
     <>
-    { films.length === 0? <Information> <img src={Loading} alt="Carregando..." /></Information> : 
+    { films.length === 0? <> <Spacing></Spacing> <Information> <img src={Loading} alt="Carregando..." /></Information></> : 
     <div>
         <Information> Selecione o filme </Information>
         <Container>
@@ -60,4 +61,10 @@ const Container = styled.div`
         width: 129px;
         margin: 8px;
     }
+`
+
+const Spacing = styled.div` 
+    width: 100%;
+    height: 200px;
+    margin-bottom:  180px;
 `

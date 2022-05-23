@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react/cjs/react.production.min";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Header(){
     const navigate = useNavigate();
-    
+    let route = useLocation().pathname; 
+
     function handleClick() {
         navigate(-1)
       }
@@ -14,7 +14,7 @@ export default function Header(){
         <>
         <Menu>
             <div> CINEFLEX </div>
-           { handleClick === "undefined"? <></> : <ion-icon onClick = {handleClick} name="return-down-back-outline"></ion-icon>}
+           { route === "/"? <></> : <ion-icon onClick = {handleClick} name="return-down-back-outline"></ion-icon>}
         </Menu>
         </>
     )

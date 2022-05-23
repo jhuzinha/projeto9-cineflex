@@ -18,13 +18,12 @@ export default function Sessions(){
         promise.then(ansewr => {
             setSessions(ansewr.data.days)
             setImage(ansewr.data)
-            console.log(ansewr.data)
         })
         }, [])
 
     return (
         <>
-        { sessions.length === 0? <Information> <img src={Loading} alt="Carregando..." /></Information> : 
+        { sessions.length === 0? <> <Spacing></Spacing> <Information> <img src={Loading} alt="Carregando..." /></Information> </> : 
         <div>
             <Information> Selecione o horário </Information>
             {sessions.map((film) => 
@@ -69,7 +68,9 @@ const Hour = styled.div`
     }
 `
 
-const Spacing = styled.div` 
+const Spacing = styled.div`
+    width: 100%;
+    height: 180px;
     margin-bottom:  180px;
 `
 
