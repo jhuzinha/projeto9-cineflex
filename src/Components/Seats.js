@@ -30,7 +30,7 @@ export default function Seats() {
                 <Center>
                     <Information> Selecione o(s) assento(s): </Information>
                     <Container>
-                        {seat.map((s, index) => <div key={index}> {!s.isAvailable ? <ChairD cor={"#FBE192"} borda={"#F7C52B"}>{s.name}</ChairD> :
+                        {seat.map((s, index) => <div key={index}> {!s.isAvailable ? <ChairD onClick={() => alert("Esse assento não está disponível")} cor={"#FBE192"} borda={"#F7C52B"}>{s.name}</ChairD> :
                             clicked.includes(s.id) ? 
                             <ChairD cor={"#8DD7CF"} borda={"#45BDB0"} onClick={() => {setClicked((clicked)=> clicked.filter((click)=> click !== s.id)); setnameClick((nameClick)=> nameClick.filter((click)=> click !== s.name))}}>{s.name}</ChairD> : 
                             <ChairD cor={"#C3CFD9"} borda={"#808F9D"} onClick={() => {setClicked([...clicked, s.id]); setnameClick([...nameClick, s.name])}}>{s.name}</ChairD>}</div>)}
